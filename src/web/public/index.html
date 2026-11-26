@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>迁移总览 · 内容摘要索引</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div id="alerts"></div>
+
+  <div class="grid cols-4" id="stats"></div>
+
+  <div style="height:16px"></div>
+
+  <div class="grid" style="grid-template-columns: 1.25fr .9fr; align-items:start;" id="main-grid">
+    <div class="card">
+      <h2>🛠 可核对的迁移流水线
+        <span class="hint">引用更新与旧数据清理是分开的步骤，每步都有独立报告</span>
+      </h2>
+      <div class="btn-row" style="margin-bottom:6px">
+        <button class="btn primary" id="btn-resume">⏯ 一键中断后继续（resume）</button>
+        <button class="btn ghost-danger" id="btn-rollback-all">↩ 全部回退</button>
+        <span class="spacer" style="flex:1"></span>
+        <button class="btn sm" id="btn-refresh">刷新</button>
+      </div>
+      <div class="steps" id="steps"></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <h2>🧪 竞争 / 中断 / 磁盘演练</h2>
+        <div class="body small" style="display:flex;flex-direction:column;gap:9px">
+          <div>
+            <label class="field">目标路径
+              <select id="demo-path" style="max-width:170px"></select>
+            </label>
+          </div>
+          <div class="btn-row">
+            <button class="btn sm amber" id="btn-demo-modify">✏️ 模拟外部并行修改</button>
+            <button class="btn sm" id="btn-demo-switch-stale" title="携带页面加载时的旧版本令牌切换，触发 409">🔒 用旧版本令牌切换</button>
+            <button class="btn sm red" id="btn-demo-race-oneclick">⚡ 一键演练：修改→带旧版本切换→409</button>
+          </div>
+          <div class="btn-row">
+            <label class="field">崩溃点
+              <select id="fault-point">
+                <option value="ingest:after-cas-put">收录写 CAS 后</option>
+                <option value="switch:after-refs" selected>引用提交后</option>
+                <option value="cleanup:after-move">清理移动后</option>
+                <option value="purge:after-unlink">删除旧副本后</option>
+                <option value="rollback:after-refs">回退撤销引用后</option>
+              </select>
+            </label>
+            <button class="btn sm red" id="btn-arm-fault">💥 武装一次性崩溃</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn sm" id="btn-disk-pressure">🧯 模拟磁盘空间紧张</button>
+            <button class="btn sm red" id="btn-disk-drill">⏸️ 一键演练：磁盘×窗口冲突暂停</button>
+            <button class="btn sm" id="btn-disk-reset">恢复真实空间</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn sm ghost-danger" id="btn-reset-mixed">♻ 重置为混合演示库</button>
+            <button class="btn sm" id="btn-reset-fresh">重置为初始状态</button>
+          </div>
+          <p class="muted" style="margin:2px 0 0">武装崩溃后点击对应步骤（或“一键继续”），操作会在检查点抛出 FAULT_INJECTED；再次点击“一键继续”即可对账恢复。</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>⚙️ 安全策略</h2>
+        <div class="body" id="settings-box"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:16px"></div>
+
+  <div class="grid cols-2" style="align-items:start">
+    <div class="card">
+      <h2>📁 旧路径 / 目录读取验证
+        <span class="hint">清理后仍按原路径与目录结构读取，实际来源为摘要库</span>
+      </h2>
+      <div class="crumbs" id="crumbs"></div>
+      <div id="dirlist"></div>
+    </div>
+
+    <div class="card">
+      <h2>📄 路径读取结果</h2>
+      <div id="file-meta" class="body small muted">点击左侧任意文件，验证旧路径读取语义。</div>
+      <div style="height:10px"></div>
+      <pre class="file-preview" id="file-preview" style="display:none"></pre>
+    </div>
+  </div>
+
+  <div style="height:16px"></div>
+
+  <div class="card">
+    <h2>🧾 审计历史（最近操作）</h2>
+    <div class="history" id="history"></div>
+  </div>
+</div>
+
+<script src="common.js"></script>
+<script src="index.js"></script>
+</body>
+</html>

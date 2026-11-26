@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>尚未切换路径 · 内容摘要迁移</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="toolbar">
+    <h2 class="section-title" style="margin:0">🚧 哪些路径还没切换到摘要引用</h2>
+    <span class="spacer" style="flex:1"></span>
+    <button class="btn primary" id="btn-switch-all">切换全部可切换项</button>
+    <button class="btn" id="btn-resume">⏯ 一键继续</button>
+  </div>
+  <div class="card">
+    <div class="body small" style="margin-bottom:10px">
+      包含：从未发布 path→digest 引用的路径、版本冲突路径，以及引用摘要已落后于当前文件的“需重新切换”路径。
+    </div>
+    <div id="table"></div>
+  </div>
+</div>
+<script src="common.js"></script>
+<script src="pending.js"></script>
+</body>
+</html>

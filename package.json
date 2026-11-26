@@ -1,0 +1,21 @@
+{
+  "name": "digest-migration-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "将按路径保存的本地文件库迁移到内容摘要索引：保留路径/目录读取语义、版本冲突检测、断点续迁与回退、可核对的引用切换与旧数据清理步骤、磁盘/回退窗口冲突时明确暂停。",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "digest-migrate": "src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "serve": "node src/server.js",
+    "dev": "node src/server.js",
+    "demo": "node scripts/seed-demo.js",
+    "test": "node --test test/*.test.js"
+  },
+  "license": "MIT"
+}
